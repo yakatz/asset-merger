@@ -14,11 +14,15 @@ abstract class Kohana_Asset {
 	 *
 	 * @param   string  $content
 	 * @param   string  $condition
+	 * @param   boolean $notIE Set whether this conditional should run in non-IE browsers
 	 * @return  string
 	 */
-	public static function conditional($content, $condition)
+	public static function conditional($content, $condition, $notIE)
 	{
-		return "<!--[if ".$condition."]>\n". $content."\n<![endif]-->";
+		if ($notIE) {
+			return "<!--[if {$condition}]><!-->{$content}<!--<![endif]-->";
+		}
+		return "<!--[if {$condition}]>{$content}<![endif]-->";
 	}
 
 	/**
