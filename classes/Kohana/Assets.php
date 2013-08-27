@@ -274,12 +274,6 @@ abstract class Kohana_Assets {
 			// Remote asset
 			$remote = Asset::html($type, $file);
 
-			if ($condition = Arr::get($options, 'condition'))
-			{
-				// Remote asset with conditions
-				$remote = Asset::conditional($remote, $condition);
-			}
-
 			if ($type === Assets::JAVASCRIPT AND $fallback = Arr::get($options, 'fallback'))
 			{
 				if ( ! is_array($fallback))
@@ -287,6 +281,12 @@ abstract class Kohana_Assets {
 
 				// Remote asset with conditions
 				$remote = Asset::fallback($remote, $fallback[0], $fallback[1]);
+			}
+
+			if ($condition = Arr::get($options, 'condition'))
+			{
+				// Remote asset with conditions
+				$remote = Asset::conditional($remote, $condition);
 			}
 
 			// Add to remote
