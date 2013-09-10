@@ -105,18 +105,23 @@ abstract class Kohana_Assets {
 	 * @param   $name   string
 	 * @return  Assets
 	 */
-	static public function factory($name)
+	static public function instance($name)
 	{
-		return new Assets($name);
+		if ( ! isset(self::$_instances[$name])) {
+			self::$_instances[$name] = new Assets($name);
+		}
+		return self::$_instances[$name];
 	}
 
+	static private $_instances = [];
+	
 	/**
 	 * Create the asset groups, set the file name and enable / disable process
 	 * and merge
 	 *
 	 * @param string $name
 	 */
-	public function __construct($name = 'all')
+	private function __construct($name = 'all')
 	{
 		foreach (array_keys(Kohana::$config->load('asset-merger.load_paths')) as $type)
 		{
