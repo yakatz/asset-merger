@@ -13,9 +13,9 @@ abstract class Kohana_Assets {
 	{
 		if ( ! in_array($type, array_keys(Kohana::$config->load('asset-merger.load_paths'))))
 		{
-			throw new Kohana_Exception('Type :type must be one of [:types]', array(
+			throw new Kohana_Exception('Type :type must be one of [:types]', [
 				':type'  => $type,
-				':types' => join(', ', array_keys(Kohana::$config->load('asset-merger.load_paths'))))
+				':types' => join(', ', array_keys(Kohana::$config->load('asset-merger.load_paths')))]
 			);
 		}
 		return TRUE;
@@ -66,6 +66,7 @@ abstract class Kohana_Assets {
 	// Default short names for types
 	const JAVASCRIPT = 'js';
 	const STYLESHEET = 'css';
+	const FONT = 'font';
 
 	/**
 	 * @var  bool  merge or not to merge assets
@@ -85,20 +86,21 @@ abstract class Kohana_Assets {
 	/**
 	 * @var  array  remote assets
 	 */
-	protected $_remote = array();
+	protected $_remote = [];
 
 	/**
 	 * @var  array  conditional assets
 	 */
-	protected $_conditional = array();
+	protected $_conditional = [];
 
 	/**
 	 * @var  array  regular assets
 	 */
-	protected $_groups = array();
+	protected $_groups = [];
 
 	/**
-	 * Return a new Assets object
+	 * Return the Assets object with the given name.  The object is created if it
+	 * does not already exist.
 	 *
 	 * @param   $name   string
 	 * @return  Assets
@@ -267,7 +269,7 @@ abstract class Kohana_Assets {
 	 * @param   array   $options
 	 * @return  Assets
 	 */
-	protected function add($class, $type, $file, array $options = array())
+	protected function add($class, $type, $file, array $options = [])
 	{
 		if (Valid::url($file))
 		{
@@ -313,7 +315,7 @@ abstract class Kohana_Assets {
 	 * @param   array   $options
 	 * @return  Assets
 	 */
-	public function css($file, array $options = array())
+	public function css($file, array $options = [])
 	{
 		return $this->add('Asset', Assets::STYLESHEET, $file, $options);
 	}
@@ -325,7 +327,7 @@ abstract class Kohana_Assets {
 	 * @param   array   $options
 	 * @return  Assets
 	 */
-	public function js($file, array $options = array())
+	public function js($file, array $options = [])
 	{
 		return $this->add('Asset', Assets::JAVASCRIPT, $file, $options);
 	}
@@ -337,7 +339,7 @@ abstract class Kohana_Assets {
 	 * @param   array   $options
 	 * @return  Assets
 	 */
-	public function js_block($script, array $options = array())
+	public function js_block($script, array $options = [])
 	{
 		return $this->add('Asset_Block', Assets::JAVASCRIPT, $script, $options);
 	}
@@ -349,7 +351,7 @@ abstract class Kohana_Assets {
 	 * @param   array   $options
 	 * @return  Assets
 	 */
-	public function css_block($css, array $options = array())
+	public function css_block($css, array $options = [])
 	{
 		return $this->add('Asset_Block', Assets::STYLESHEET, $css, $options);
 	}
