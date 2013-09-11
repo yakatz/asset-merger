@@ -22,10 +22,10 @@ abstract class Kohana_Asset {
 		{
 			// if the second element of the array is TRUE, then the conditional
 			// comment will allow the code to show up for non-IE browsers.
-			$notIE = $condition[1];
+			$not_ie = $condition[1];
 			// Set `$condition` back to the string so we can use it below if $notIE is FALSE.
 			$condition = $condition[0];
-			if ($notIE) {
+			if ($not_ie) {
 				return "<!--[if {$condition}]><!-->{$content}<!--<![endif]-->";
 			}
 		}
@@ -41,7 +41,8 @@ abstract class Kohana_Asset {
 	 */
 	public static function fallback($content, $check, $fallback)
 	{
-		return $content."\n".Asset::html_inline(Assets::JAVASCRIPT, "({$check}) || document.write('<script src=\"{$fallback}\"><\/script>')");
+		$fallback = strtr($fallback, array("'" => "\\'", "</" => "<\\/"));
+		return $content."\n".Asset::html_inline(Assets::JAVASCRIPT, "({$check}) || document.write('{$fallback}')");
 	}
 
 	/**

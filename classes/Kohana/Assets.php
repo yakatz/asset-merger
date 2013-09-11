@@ -209,7 +209,7 @@ abstract class Kohana_Assets {
 			}
 			else
 			{
-				foreach($group as $asset)
+				foreach ($group as $asset)
 				{
 					// Files not merged, add each of them to html
 					$html[] = $asset->render($this->_process);		
@@ -286,8 +286,9 @@ abstract class Kohana_Assets {
 				if ( ! is_array($fallback))
 					throw new Kohana_Exception("Fallback must be an array of 'check' and 'local path'. Check is evaluated to see if we need to include the local path");
 
-				// Remote asset with conditions
-				$remote = Asset::fallback($remote, $fallback[0], $fallback[1]);
+				// Remote asset with fallback
+				$fallback_asset = new $class($type, $fallback[1]);
+				$remote = Asset::fallback($remote, $fallback[0], (string) $fallback_asset);
 			}
 
 			if ($condition = Arr::get($options, 'condition'))
